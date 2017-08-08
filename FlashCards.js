@@ -19,7 +19,7 @@ ask.prompt([
 
     }]).then(function(ans){
 
-        console.log(ans);
+        // console.log(ans);
         var input = ans.game;
 
         switch(input){
@@ -45,8 +45,32 @@ ask.prompt([
                     // console.log('body:', obj.results)                            // Print the HTML for the Google homepage.
                     // console.log('body:', obj.results[0].question)                // Print the HTML for the Google homepage.
 
-                    card.front = obj.results[0].question;
-                    console.log(card.front);
+                    card.front  = obj.results[0].question;
+                    card.back   = obj.results[0].correct_answer;
+                    var wrong   = obj.results[0].incorrect_answers;
+
+                    // console.log(" ");
+                    // console.log(wrong, card.back);
+
+                    ask.prompt([
+                        {
+                            type: "list",
+                            name: "guess",
+                            choices: scrambler(wrong, card.back),
+                            // choices: ["1", "2", "3"],
+                            message: card.front
+                        }]).then(function(ans){
+                            // console.log(ans);
+                            // console.log(ans.guess);
+
+                            if (ans.guess === card.back){
+                                console.log("Yay, you got it right!");
+                            }
+                            else{
+                                console.log("Sorry, the correct answer is: " + card.back);
+                            }
+                        });
+
                 })
 
                 break;
@@ -61,3 +85,36 @@ ask.prompt([
         }
 
     });
+
+function scrambler(arr, ins){
+    var scram   = [];
+    var numb    = Math.floor(Math.random() * (arr.length + 1));
+    /** 
+     * scrambles arrays then exits */
+    console.log(" ");
+    // console.log(numb);
+
+        for (var i = 0; i < (arr.length + 1); ++i){
+            
+            if (i < numb){
+                scram[i] = arr[i];
+            }
+            else if (i === numb){
+                scram[i] = ins;
+            }
+            else{
+
+                scram[i] = arr[i - 1];
+
+                // for (var j = i - 1; j < (arr.length + 1); ++j){
+                //     // scram[j + 1] = arr[j];
+                //     console.log("index: " + j);
+                // }
+                // return ("exited j-loop at i: " + i);
+
+            }
+        }
+
+    // console.log(scram);
+    return scram;
+}
