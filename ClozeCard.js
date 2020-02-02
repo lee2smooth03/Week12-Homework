@@ -13,10 +13,9 @@ function ClozeCard(text, cloze){
     
     this.cloze = cloze;     // contains the cloze deleted portion of the text
     // this.partial = ...;     // this is the remaning text once the cloze is removed
+
     this.fulltext = text;   // this is the entire sentance: partial + cloze
-
-    ///this.partial = fulltext.replace(cloze, "..."); 
-
+    // this.partial = fulltext.replace(cloze, "..."); 
 
 }
 
